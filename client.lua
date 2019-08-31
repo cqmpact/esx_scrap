@@ -66,17 +66,16 @@ Citizen.CreateThread(function()
 			ESX.ShowHelpNotification(CurrentActionMsg)
 
 			if IsControlJustReleased(1, 38) then
-                if CurrentAction == 'scrap_vehicle' then
-                    vehicle = GetVehiclePedIsIn(GetPlayerPed(GetPlayerFromServerId()), false)
-                    model = GetEntityModel(vehicle)
-                    playerVeh = GetDisplayNameFromVehicleModel(model)
-                    if playerVeh ~= 'CARNOTFOUND' then
-                        TriggerServerEvent('esx_scrap:checkVeh', playerID, playerVeh)
-                    else
-                        ESX.ShowNotification('You need to be inside a vehicle!')
-                    end
-
-                end
+				if CurrentAction == 'scrap_vehicle' then
+				    vehicle = GetVehiclePedIsIn(GetPlayerPed(GetPlayerFromServerId()), false)
+				    model = GetEntityModel(vehicle)
+				    playerVeh = GetDisplayNameFromVehicleModel(model)
+				    if playerVeh ~= 'CARNOTFOUND' and GetPedInVehicleSeat(vehicle, -1) == GetPlayerPed(GetPlayerFromServerId()) then
+					TriggerServerEvent('esx_scrap:checkVeh', playerID, playerVeh)
+				    else
+					ESX.ShowNotification('You need to be inside a vehicle!')
+				    end
+				end
 
 				CurrentAction = nil
 			end
